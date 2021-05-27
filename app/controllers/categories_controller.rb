@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-    before_action :set_category, only:[:show]
+    before_action :set_category, only:[:show, :update, :destroy]
     ## ssr of a react component
     def app
      render component: 'App'
@@ -13,7 +13,32 @@ class CategoriesController < ApplicationController
        render json: {category: @category, cards:@category.cards}
     end
 
+    def create
+      @category = Category.new(category_params)
+      if(@category.save)
+        render json: @category
+      else
+        render json:  @category.errors.full_messages, status: :unprocessable_entity
+      end
+    end
+
+    def update
+        if(@category.update(category_params))
+          render json: @category
+        else
+          render json: @category.errors.full_messages, status: :unprocessable_entity
+        end
+    end
+
+    def destroy
+      render json: @category.destroy
+    end
+
     private
+
+    def category_params
+      params.require(:category).permit(:name)
+    end
 
     def set_category
         @category = Category.find(params[:id])
