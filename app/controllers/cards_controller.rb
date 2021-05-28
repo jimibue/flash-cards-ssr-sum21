@@ -3,7 +3,14 @@ class CardsController < ApplicationController
     before_action :set_card, only: [:show, :update, :destroy]
 
     def index
+        # here res.data would be an object with keys category and cards
         render json: {category: @category, cards: @category.cards}
+        
+        # here res.data would be an array of cards in js
+        #render json: @category.cards
+
+        # here res.data would be an 1  in js
+        #render json: 1
     end
 
     def all

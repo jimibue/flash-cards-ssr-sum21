@@ -10,7 +10,12 @@ class CategoriesController < ApplicationController
     end
 
     def show
-       render json: {category: @category, cards:@category.cards}
+      #  render json: {category: @category, cards:@category.cards}
+      
+      # could pass props through my server here to the component and this would be more
+      # but we are not going to this so that can get practice with useEffect and axios in react
+      # render component: 'CategoryShowSSR', props: {category: @category, cards:@category.cards}
+      render component: 'CategoryShowSSR', props: {id: @category.id}
     end
 
     def create
