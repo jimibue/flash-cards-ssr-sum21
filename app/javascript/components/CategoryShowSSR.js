@@ -20,6 +20,16 @@ const CategoryShowSSR = (props) => {
         setCards([card, ...cards])
     }
 
+    const removeCard = (id) => {
+        let updateCards = cards.filter(c => c.id !== id)
+        setCards(updateCards)
+    }
+
+    const updateCard = (card) => {
+        let updatedCards = cards.map(c => c.id === card.id ? card : c )
+        setCards(updatedCards)
+    }
+
     const getCards = async()=>{
         try {
             let res =  await axios.get(`/categories/${id}/cards/`)
@@ -39,7 +49,12 @@ const CategoryShowSSR = (props) => {
 
     const renderCards = ()=> {
         return cards.map(card => {
-            return <Card key={card.id} {...card}/>
+            return <Card 
+                key={card.id} {...card} 
+                categoryId={category.id} 
+                removeCard={removeCard}
+                updateCard={updateCard}
+                />
         })
     }
 

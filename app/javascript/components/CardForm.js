@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, {useState} from 'react'
 
 const CardForm = (props) => {
-    const {id, categoryId, addCard} = props
+    const {id, categoryId, addCard, updateCard} = props
     const [answer, setAnswer] = useState(props.answer ? props.answer : '')
     const [question, setQuestion] = useState(props.question ? props.question : '')
 
@@ -11,6 +11,10 @@ const CardForm = (props) => {
         try{
            if(id){
              // update logic
+             let res = await axios.put(`/categories/${categoryId}/cards/${id}`, {answer, question})
+             console.log(res)
+             updateCard(res.data)
+
            } else {
             // create logic
             let res = await axios.post(`/categories/${categoryId}/cards`, {answer, question})
